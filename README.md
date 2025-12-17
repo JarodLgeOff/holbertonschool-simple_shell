@@ -61,7 +61,59 @@ Built-in Commands
 The shell supports the following built-in commands:
 
 Flowchart
-The logical flow of the shell is as follows:
+```mermaid
+---
+config:
+  theme: redux
+  layout: fixed
+---
+flowchart TB
+    A(["Start"]) --> n3["🔧 Initialization<br>Environment &amp; Signals<br>(SIGINT, SIGQUIT)"]
+    n3 --> n4["🔄 Start of Infinite Loop"]
+    n4 --> n5@{ label: "💬 Display prompt '$ '" }
+    n5 --> n6["📖 Reading: getline()"]
+    n6 --> n7["✅ Command received"] & n8["⛔ EOF (Ctrl+D)<br>→ Free &amp; Exit"]
+    n7 --> n9["🔍 Parsing: strtok()"]
+    n9 --> n10{"❓ Empty command?"}
+    n10 -- Yes --> n12["Free memory"]
+    n10 -- No --> n13{"🔎 Is it a Built-in?<br>(env, exit, cd, etc.)"}
+    n13 -- Yes --> n14["✅ Execute Built-in"]
+    n14 --> n14b["💾 Store exit status"]
+    n14b --> n12
+    n13 -- No --> n16{"Is it an absolute path?<br>(/bin/ls or ./ls)"}
+    n16 -- No --> n17["🔍 Search in PATH"]
+    n17 --> n19{"Found in PATH?"}
+    n19 -- No --> n20["❌ Error: command not found<br>exit_status = 127"]
+    n20 --> n12
+    n19 -- Yes --> n21["Build full path"]
+    n16 -- Yes --> n22{"🔐 File accessible?<br>(access/stat)"}
+    n21 --> n22
+    n22 -- No --> n23["❌ Permission denied<br>or file not found<br>exit_status = 126/127"]
+    n23 --> n12
+    n22 -- Yes --> n25["🔀 Fork: fork()"]
+    n25 --> n26{"❓ PID returned?"}
+    n26 -- "-1" --> n27["❌ Fork error<br>exit_status = 1"]
+    n27 --> n12
+    n26 -- 0 --> n29["👶 Child Process"]
+    n29 --> n29b["Restore default signals<br>(SIGINT, SIGQUIT)"]
+    n29b --> n29c["Execute: execve()"]
+    n29c --> n29d["⚠️ execve failed<br>perror + exit(126/127)"]
+    n26 -- >0 --> n28["👨 Parent Process"]
+    n28 --> n28b["Wait: wait(&status)"]
+    n28b --> n28c["📊 Extract exit status<br>WIFEXITED/WIFSIGNALED<br>WEXITSTATUS/WTERMSIG"]
+    n28c --> n28d["💾 Store in g_last_exit_status"]
+    n28d --> n12
+    n12 --> n31["🔁 Return to Loop"]
+    n31 --> n4
+    n8 --> n32(["🛑 Free all memory & Exit"])
+
+    n5@{ shape: rect}
+    style n8 fill:#ffd93d
+    style n14 fill:#a8e6cf
+    style n29d fill:#ff6b6b
+    style n28d fill:#a8e6cf
+    style n32 fill:#95e1d3
+```
 
 Start: Initialize environment.
 
