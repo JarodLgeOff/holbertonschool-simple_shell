@@ -1,5 +1,11 @@
 #include "main.h"
 
+/**
+ * main - Entry point
+ *
+ * Return: Always 0 (Success).
+ */
+
 int main(void)
 {
 	char *line = NULL;
@@ -14,9 +20,19 @@ int main(void)
 			write(STDOUT_FILENO, "\n", 1);
 			break;
 		}
-		
+
+		int i = 0;
+
+		while (line[i])
+		{
+			if (line[i] == '\n')
+			{
+				line[i] = '\0';
+				break;
+			}
+			i++;
+		}
 	}
 	free(line);
 	return (0);
-	
 }
