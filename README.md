@@ -7,7 +7,7 @@ Simple Shell is a simple UNIX command language interpreter that reads commands f
 - [Built-in](#built-in-commands)
 - [Features](#Features)
 - [Process-Management](#process-management--logic)
-- [Structure-project](#Structure project)
+- [Structure-project](#Structure-project)
 - [Flowchart](#flowchart)
 - [Installation](#installation)
 - [Compilation](#compilation)
@@ -101,7 +101,7 @@ If the user provides a command name (like `ls`) instead of a full path (like `/b
 
 ---
 
-## Structure project
+## Structure-project
 
 ```
 holbertonschool-simple_shell/
@@ -193,9 +193,9 @@ flowchart TB
 
 ## Compilation
 
-```Compiler: GCC 4.8.4 or later.
+Compiler: GCC 4.8.4 or later.
 
-Compilation Flags: -Wall -Werror -Wextra -pedantic -std=gnu89```
+Compilation Flags: -Wall -Werror -Wextra -pedantic -std=gnu89
 
 ---
 
