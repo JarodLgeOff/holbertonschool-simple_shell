@@ -225,5 +225,5 @@ The complete man page can be found in the file:
 
 ## Authors
 
-- **Jarode Lange**  
-- **Loïc Cerqueira**
+- [**Jarode Lange**](https://github.com/JarodLgeOff)
+- [**Loïc Cerqueira**](https://github.com/Loic2888)
