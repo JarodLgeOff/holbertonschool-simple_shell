@@ -10,18 +10,18 @@ int main(void)
 {
 	char *line = NULL;
 	size_t len = 0;
+	int i = 0;
 
 	while (1)
 	{
 		write(STDOUT_FILENO, "inshell$ ", 9);
+		i = 0;
 
 		if (getline(&line, &len, stdin) == -1)
 		{
 			write(STDOUT_FILENO, "\n", 1);
 			break;
 		}
-
-		int i = 0;
 
 		while (line[i])
 		{
@@ -32,7 +32,14 @@ int main(void)
 			}
 			i++;
 		}
+
+
+		if (line[0] != '\0')
+			execute_command(line);
+
 	}
-	free(line);
+	if (line)
+		free(line);
+
 	return (0);
 }
