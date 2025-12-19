@@ -14,12 +14,12 @@ int main(void)
 
 	while (1)
 	{
-		write(STDOUT_FILENO, "inshell$ ", 9);
+		printf("inshell$ ");
 		i = 0;
 
 		if (getline(&line, &len, stdin) == -1)
 		{
-			write(STDOUT_FILENO, "\n", 1);
+			printf("\n");
 			break;
 		}
 
