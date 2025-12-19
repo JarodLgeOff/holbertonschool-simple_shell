@@ -9,8 +9,7 @@
 #include <limits.h>
 #include <string.h>
 
-extern char **environ;
-int execute_command(char *cmd);
-char *find_path(const char *cmd);
+int execute_command(char *cmd, char **env);
+char *find_path(const char *cmd, char **env);
 
 #endif

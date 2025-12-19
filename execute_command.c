@@ -2,13 +2,13 @@
 /**
  * execute_command - Executes a command by forking a child process
  * @cmd: The command to execute
- *
+ * @env: Environment variables array
  * Return: 0 on success, -1 on failure
  */
-int execute_command(char *cmd)
+int execute_command(char *cmd, char **env)
 {
 	pid_t pid;
-	char *path_cmd = find_path(cmd);
+	char *path_cmd = find_path(cmd, env);
 	char *argv[] = {NULL, NULL};
 	int status;
 
@@ -29,7 +29,7 @@ int execute_command(char *cmd)
 	}
 	else if (pid == 0)
 	{
-		execve(path_cmd, argv, environ);
+		execve(path_cmd, argv, env);
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
