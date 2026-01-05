@@ -1,8 +1,9 @@
 #include "main.h"
+
 /**
  * main - Entry point for the simple shell program.
- * @argc: Argument count.
- * @argv: Argument vector.
+ * @argc: Argument count (unused).
+ * @argv: Argument vector (unused).
  * @env: Environment variables.
  *
  * Return: Always 0.
@@ -11,37 +12,40 @@ int main(int argc, char **argv, char **env)
 {
 	char *line = NULL;
 	size_t len = 0;
-	int i = 0;
+	ssize_t read;
+	char **args;
 
 	(void)argc;
 	(void)argv;
 
 	while (1)
 	{
-		printf("inshell$ ");
-		i = 0;
+		if (isatty(STDIN_FILENO))
+			printf("inshell$ ");
 
-		if (getline(&line, &len, stdin) == -1)
+		read = getline(&line, &len, stdin);
+
+		if (read == -1)
 		{
-			printf("\n");
+			if (isatty(STDIN_FILENO))
+				printf("\n");
 			break;
 		}
+		args = split_line(line);
 
-		while (line[i])
+		if (args[0] != NULL)
 		{
-			if (line[i] == '\n')
+			if (strcmp(args[0], "exit") == 0)
 			{
-				line[i] = '\0';
-				break;
+				free(args);
+				free(line);
+				exit(0);
 			}
-			i++;
+			execute_command(args, env);
 		}
-
-		if (line[0] != '\0')
-			execute_command(line, env);
+		free(args);
 	}
-	if (line)
-		free(line);
 
+	free(line);
 	return (0);
 }

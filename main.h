@@ -9,7 +9,12 @@
 #include <linux/limits.h>
 #include <string.h>
 
-int execute_command(char *cmd, char **env);
+int execute_command(char **argv, char **env);
+
+char *get_path_env(char **env);
+
 char *find_path(const char *cmd, char **env);
+
+char **split_line(char *line);
 
 #endif

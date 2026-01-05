@@ -1,24 +1,27 @@
 #include "main.h"
 /**
  * execute_command - Executes a command by forking a child process
- * @cmd: The command to execute
+ * @argv: Array of arguments (argv[0] is the command)
  * @env: Environment variables array
  * Return: 0 on success, -1 on failure
  */
-int execute_command(char *cmd, char **env)
+int execute_command(char **argv, char **env)
 {
 	pid_t pid;
-	char *path_cmd = find_path(cmd, env);
-	char *argv[] = {NULL, NULL};
+	char *path_cmd;
 	int status;
+
+	if (!argv || !argv[0])
+		return (0);
+
+	path_cmd = find_path(argv[0], env);
 
 	if (!path_cmd)
 	{
-		fprintf(stderr, "%s: command not found\n", cmd);
-		return (-1);
+		fprintf(stderr, "Command not found\n");
+		return (127);
 	}
 
-	argv[0] = path_cmd;
 	pid = fork();
 
 	if (pid == -1)
@@ -29,14 +32,18 @@ int execute_command(char *cmd, char **env)
 	}
 	else if (pid == 0)
 	{
-		execve(path_cmd, argv, env);
-		perror("execve");
-		exit(EXIT_FAILURE);
+		if (execve(path_cmd, argv, env) == -1)
+		{
+			perror("execve");
+			free(path_cmd);
+			exit(126);
+		}
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
+		free(path_cmd);
 	}
-	free(path_cmd);
+
 	return (0);
 }
