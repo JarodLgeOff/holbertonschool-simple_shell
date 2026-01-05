@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <limits.h>
+#include <linux/limits.h>
 #include <string.h>
 
 int execute_command(char *cmd, char **env);

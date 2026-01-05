@@ -106,11 +106,11 @@ If the user provides a command name (like `ls`) instead of a full path (like `/b
 ```
 holbertonschool-simple_shell/
 ├── man_1_simple_shell
-├── shell.h
-├── main.c
-├── parser.c
-├── executor.c
-├── builtins.c
+├── main.h
+├── inshell.c
+├── execute_command.c
+├── find_path_manual.c
+├── 
 └── README.md
 ```     
 
