@@ -19,7 +19,7 @@ int execute_command(char **argv, char **env)
 	if (!path_cmd)
 	{
 		fprintf(stderr, "%s: %d: %s: not found\n", "./hsh", 1, argv[0]);
-		exit(127);
+		return (127);
 	}
 
 
