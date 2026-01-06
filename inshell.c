@@ -39,15 +39,16 @@ int main(int argc, char **argv, char **env)
 			if (strcmp(args[0], "exit") == 0)
 			{
 				free(args);
-				free(line);
-				exit(0);
+				break;;
 			}
 			status = execute_command(args, env);
+
 			free(args);
-			free(line);
 			if (status == 127)
-				exit(127);
+			{
+				break;
 			}
+		}
 	}
 
 	free(line);
