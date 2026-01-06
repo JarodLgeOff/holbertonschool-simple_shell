@@ -46,5 +46,5 @@ int execute_command(char **argv, char **env)
 		free(path_cmd);
 	}
 
-	return (0);
+	return (1);
 }
