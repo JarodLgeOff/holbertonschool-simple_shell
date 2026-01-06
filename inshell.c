@@ -44,8 +44,6 @@ int main(int argc, char **argv, char **env)
 			}
 			status = execute_command(args, env);
 			free(args);
-			if (status == 127)
-				break;
 		}
 	}
 
