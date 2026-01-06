@@ -34,7 +34,7 @@ char *find_path(const char *cmd, char **env)
 
 	path = get_path_env(env);
 	if (!path || *path == '\0')
-		return (NULL);
+		path = "/bin:/usr/bin";
 
 	path_copy = strdup(path);
 
@@ -61,3 +61,4 @@ char *find_path(const char *cmd, char **env)
 	free(path_copy);
 	return (NULL);
 }
+
