@@ -1,38 +1,51 @@
 #include "main.h"
 
 /**
- * main - Entry point
+ * main - Entry point for the simple shell program.
+ * @argc: Argument count (unused).
+ * @argv: Argument vector (unused).
+ * @env: Environment variables.
  *
- * Return: Always 0 (Success).
+ * Return: Always 0.
  */
-
-int main(void)
+int main(int argc, char **argv, char **env)
 {
 	char *line = NULL;
 	size_t len = 0;
+	ssize_t read;
+	char **args;
+
+	(void)argc;
+	(void)argv;
 
 	while (1)
 	{
-		write(STDOUT_FILENO, "inshell$ ", 9);
+		if (isatty(STDIN_FILENO))
+			printf("inshell$ ");
 
-		if (getline(&line, &len, stdin) == -1)
+		read = getline(&line, &len, stdin);
+
+		if (read == -1)
 		{
-			write(STDOUT_FILENO, "\n", 1);
+			if (isatty(STDIN_FILENO))
+				printf("\n");
 			break;
 		}
+		args = split_line(line);
 
-		int i = 0;
-
-		while (line[i])
+		if (args[0] != NULL)
 		{
-			if (line[i] == '\n')
+			if (strcmp(args[0], "exit") == 0)
 			{
-				line[i] = '\0';
-				break;
+				free(args);
+				free(line);
+				exit(0);
 			}
-			i++;
+			execute_command(args, env);
 		}
+		free(args);
 	}
+
 	free(line);
 	return (0);
 }

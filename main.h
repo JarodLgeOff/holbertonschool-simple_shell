@@ -6,7 +6,15 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <linux/limits.h>
+#include <string.h>
 
-extern char **environ;
+int execute_command(char **argv, char **env);
+
+char *get_path_env(char **env);
+
+char *find_path(const char *cmd, char **env);
+
+char **split_line(char *line);
 
 #endif

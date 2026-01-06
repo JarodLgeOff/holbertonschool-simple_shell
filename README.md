@@ -1,16 +1,24 @@
-Simple Shell
+# Simple Shell
 Simple Shell is a simple UNIX command language interpreter that reads commands from either standard input or from a file. It is a Holberton School project designed to implement a basic shell similar to the sh (Bourne Shell) interface.
 
-Table of Contents
-*(#description) *(#requirements) *(#file-structure)
 
-Installation
+## Summary
+- [Description](#description)
+- [Built-in](#built-in-commands)
+- [Features](#Features)
+- [Process-Management](#process-management--logic)
+- [Structure-project](#Structure-project)
+- [Flowchart](#flowchart)
+- [Installation](#installation)
+- [Compilation](#compilation)
+- [Documentation_Man_Page](#Documentation_man_page)
+- [Technologies used](#technologies-used)
+- [Authors](#authors)
 
-*(#built-in-commands)
+---
 
+## Description
 
-
-Description
 The Simple Shell is a command-line interpreter developed in C. It operates by creating a child process for each command entered by the user. The shell manages the environment variables, handles the PATH variable to locate executables, and supports basic error handling. It is designed to be memory-efficient and robust, handling end-of-file (EOF) conditions and signals like SIGINT (Ctrl+C) gracefully.
 
 Key features include:
@@ -25,42 +33,92 @@ Managing the process environment.
 
 Implementing built-in commands like exit and env.
 
-Requirements
-Operating System: Ubuntu 14.04 LTS or 20.04 LTS.
-
-Compiler: GCC 4.8.4 or later.
-
-Compilation Flags: -Wall -Werror -Wextra -pedantic -std=gnu89
-
-Style: Code must follow the Betty style guide.
-
-Memory: No memory leaks (checked with Valgrind).
-
-File Structure
-The project is modularized to comply with the limit of 5 functions per file.
-
-Installation
-To install and compile the shell, follow these steps:
-
-Clone the repository:
-
-Navigate to the directory:
-
-Compile the program:
-
 Usage
 The shell works in two modes: Interactive and Non-Interactive.
 
 Interactive Mode
 Run the executable. The shell will display a prompt (e.g., $ or #cisfun$ ) and wait for a command.
+exemple: 
+```
+$ ./hsh
+($) /bin/ls
+hsh main.c shell.c
+($) exit
+```
 
 Non-Interactive Mode
 Pipe commands into the shell or run from a script. The prompt is not displayed.
+exemple:
+```
+$ echo "/bin/ls" | ./hsh
+hsh main.c shell.c
+```
 
-Built-in Commands
-The shell supports the following built-in commands:
+---
 
-Flowchart
+## Built-in-Commands
+
+The shell supports the following built-in commands that are executed directly by the shell process:
+
+| Command | Description |
+| --- | --- |
+| **exit** | Terminates the shell. You can also provide an exit status (e.g., `exit 98`). |
+| **env** | Prints the current environment variables to the standard output. |
+
+---
+
+## Features
+* Display a prompt and wait for user input.
+* Handle command lines with arguments.
+* Handle the PATH environment variable.
+* Built-ins: `exit`, `env`.
+* Handle `Ctrl+D` (EOF) and `Ctrl+C` (SIGINT).
+
+---
+
+## #process-management--logic
+
+The shell operates by managing the lifecycle of processes to execute user commands without crashing or exiting unexpectedly.
+
+### 1. The Main Loop
+The shell runs in a continuous loop, performing the following steps:
+* **Prompt**: Displays a prompt (if in interactive mode).
+* **Read**: Captures user input using `getline()`.
+* **Parse**: Tokenizes the input string into a command and its arguments using `strtok()`.
+* **Execute**: Attempts to run the command.
+
+### 2. Fork, Execve, and Wait
+To execute a command, the shell creates a new process so that the main program doesn't terminate after a command finishes:
+* **`fork()`**: Creates a child process. Both the parent and child continue from the same point.
+* **`execve()`**: Called within the child process to replace the current process image with the program to be executed (e.g., `/bin/ls`).
+* **`wait()`**: The parent process waits for the child to finish, capturing its exit status before displaying the prompt again.
+
+### 3. Environment & PATH
+If the user provides a command name (like `ls`) instead of a full path (like `/bin/ls`), the shell:
+1.  Retrieves the `PATH` variable from the environment.
+2.  Splits the `PATH` into directories.
+3.  Appends the command to each directory and uses `stat()` or `access()` to check if the file exists and is executable.
+
+---
+
+## Structure-project
+
+```
+holbertonschool-simple_shell/
+├── man_1_simple_shell.man
+├── main.h
+├── inshell.c
+├── execute_command.c
+├── find_path_manual.c
+├── 
+└── README.md
+```     
+
+---
+
+
+## Flowchart
+
 ```mermaid
 ---
 config:
@@ -114,32 +172,58 @@ flowchart TB
     style n28d fill:#a8e6cf
     style n32 fill:#95e1d3
 ```
+---
 
-Start: Initialize environment.
+## Installation
 
-Loop: Enter infinite loop.
+- Requirements: Operating System: Ubuntu 14.04 LTS or 20.04 LTS.
+- Style: Code must follow the Betty style guide.
+- Memory: No memory leaks (checked with Valgrind).
+- File Structure: The project is modularized to comply with the limit of 5 functions per file.
 
-Prompt: Check isatty; if true, print prompt.
+- Clone this repository:
+- Open your preferred Terminal.
+- Navigate to the directory where you want to clone the repository.
+- Run the following command:
+  
+```git clone https://github.com/JarodLgeOff/holbertonschool-simple_shell.git```
+- Open the cloned repository.
 
-Read: Get input line using getline. If EOF, exit.
+---
 
-Parse: Split line into tokens.
+## Compilation
 
-Check: Is the command a built-in?
+Compiler: GCC 4.8.4 or later.
 
-Yes: Execute built-in function.
+Compilation Flags: -Wall -Werror -Wextra -pedantic -std=gnu89
 
-No: Search PATH or check absolute path.
+---
 
-Fork: Create child process.
+## Documentation_man_page
 
-Child: execve the command.
+The complete man page can be found in the file:  
 
-Parent: wait for child to finish.
+[man_1_simple_shell.man](man_1_simple_shell.man)
 
-Repeat: Free memory and return to Prompt.
+---
 
-Authors
-Contributor 1 -
+## Technologies Used
 
-Contributor 2 -
+<div align="left">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" height="40" alt="c logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" height="40" alt="github logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" height="40" alt="linux logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/windows8/windows8-original.svg" height="40" alt="windows8 logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" height="40" alt="vscode logo"  />
+</div>
+
+---
+
+## Authors
+
+- [**Jarod Lange**](https://github.com/JarodLgeOff)
+- [**Loïc Cerqueira**](https://github.com/Loic2888)
