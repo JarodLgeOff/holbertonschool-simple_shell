@@ -44,12 +44,13 @@ int main(int argc, char **argv, char **env)
 			}
 			status = execute_command(args, env);
 			free(args);
+			free(line);
 			if (status == 127)
 				exit(127);
 			}
 	}
 
 	free(line);
-	return (0);
 
+	return (0);
 }
