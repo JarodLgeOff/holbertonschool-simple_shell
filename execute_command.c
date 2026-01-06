@@ -18,9 +18,10 @@ int execute_command(char **argv, char **env)
 
 	if (!path_cmd)
 	{
-		fprintf(stderr, "Command not found\n");
-		return (127);
+		fprintf(stderr, "%s: %d: %s: not found\n", "./hsh", 1, argv[0]);
+		exit(127);
 	}
+
 
 	pid = fork();
 
