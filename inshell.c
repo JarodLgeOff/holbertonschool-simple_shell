@@ -14,6 +14,7 @@ int main(int argc, char **argv, char **env)
 	size_t len = 0;
 	ssize_t read;
 	char **args;
+	int status = 0;
 
 	(void)argc;
 	(void)argv;
@@ -41,11 +42,14 @@ int main(int argc, char **argv, char **env)
 				free(line);
 				exit(0);
 			}
-			execute_command(args, env);
-		}
-		free(args);
+			status = execute_command(args, env);
+			free(args);
+			if (status == 127)
+				exit(127);
+			}
 	}
 
 	free(line);
 	return (0);
+
 }
