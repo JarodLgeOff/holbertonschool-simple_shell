@@ -43,10 +43,10 @@ int main(int argc, char **argv, char **env)
 				return status;
 			}
 			status = execute_command(args, env);
-			free(args);
 		}
 	}
-
+	
+	free(args);
 	free(line);
 
 	return status;
