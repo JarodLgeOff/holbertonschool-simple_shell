@@ -33,7 +33,7 @@ char *find_path(const char *cmd, char **env)
 	}
 
 	path = get_path_env(env);
-	if (!path)
+	if (!path || *path == '\0')
 		return (NULL);
 
 	path_copy = strdup(path);
@@ -48,7 +48,7 @@ char *find_path(const char *cmd, char **env)
 		full_path = malloc(strlen(dir) + strlen(cmd) + 2);
 		if (full_path)
 		{
-			sprintf(full_path, "%s/%s", dir, cmd);
+			sprintf(full_path, "%s: %d: %s not found\n", dir, cmd);
 			if (access(full_path, X_OK) == 0)
 			{
 				free(path_copy);
