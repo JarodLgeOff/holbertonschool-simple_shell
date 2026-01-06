@@ -36,9 +36,11 @@ int execute_command(char **argv, char **env)
 		execve(path_cmd, argv, env);
 		perror("execve");
 		exit(126);
+	} else
+	{
+		waitpid(pid, &status, 0);
 	}
 
-	waitpid(pid, &status, 0);
 	free(path_cmd);
 
 	if (WIFEXITED(status))
