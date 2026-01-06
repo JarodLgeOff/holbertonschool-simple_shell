@@ -25,13 +25,13 @@ int main(int argc, char **argv, char **env)
 			printf("inshell$ ");
 
 		read = getline(&line, &len, stdin);
-
 		if (read == -1)
 		{
 			if (isatty(STDIN_FILENO))
 				printf("\n");
 			break;
 		}
+
 		args = split_line(line);
 
 		if (args[0] != NULL)
@@ -39,19 +39,17 @@ int main(int argc, char **argv, char **env)
 			if (strcmp(args[0], "exit") == 0)
 			{
 				free(args);
-				break;;
-			}
-			status = execute_command(args, env);
-
-			free(args);
-			if (status == 127)
-			{
 				break;
 			}
+			status = execute_command(args, env);
+			free(args);
+			if (status == 127)
+				break;
 		}
 	}
 
 	free(line);
 
 	return (0);
+
 }
