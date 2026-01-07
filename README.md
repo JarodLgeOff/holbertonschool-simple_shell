@@ -6,11 +6,12 @@ Simple Shell is a simple UNIX command language interpreter that reads commands f
 - [Description](#description)
 - [Built-in](#built-in-commands)
 - [Features](#Features)
+- [Allowed Functions & Rules](#Allowed-Functions-&-Rules)
 - [Process-Management](#process-management--logic)
 - [Structure-project](#Structure-project)
 - [Flowchart](#flowchart)
 - [Installation](#installation)
-- [Compilation](#compilation)
+- [Memory Management](#Memory-Management)
 - [Documentation_Man_Page](#Documentation_man_page)
 - [Technologies used](#technologies-used)
 - [Authors](#authors)
@@ -20,18 +21,6 @@ Simple Shell is a simple UNIX command language interpreter that reads commands f
 ## Description
 
 The Simple Shell is a command-line interpreter developed in C. It operates by creating a child process for each command entered by the user. The shell manages the environment variables, handles the PATH variable to locate executables, and supports basic error handling. It is designed to be memory-efficient and robust, handling end-of-file (EOF) conditions and signals like SIGINT (Ctrl+C) gracefully.
-
-Key features include:
-
-Displaying a prompt and waiting for user input.
-
-Executing commands found in the system PATH or via absolute paths.
-
-Handling command-line arguments.
-
-Managing the process environment.
-
-Implementing built-in commands like exit and env.
 
 Usage
 The shell works in two modes: Interactive and Non-Interactive.
@@ -76,6 +65,50 @@ The shell supports the following built-in commands that are executed directly by
 
 ---
 
+## Allowed-Functions-&-Rules
+* Style: Code must follow the Betty style guide.
+* File Structure: The project is modularized to comply with the limit of 5 functions per file.
+* List of allowed functions:
+- all functions from string.h
+- access (man 2 access)
+- chdir (man 2 chdir)
+- close (man 2 close)
+- closedir (man 3 closedir)
+- execve (man 2 execve)
+- exit (man 3 exit)
+- _exit (man 2 _exit)
+- fflush (man 3 fflush)
+- fork (man 2 fork)
+- free (man 3 free)
+- getcwd (man 3 getcwd)
+- getline (man 3 getline)
+- getpid (man 2 getpid)
+- isatty (man 3 isatty)
+- kill (man 2 kill)
+- malloc (man 3 malloc)
+- open (man 2 open)
+- opendir (man 3 opendir)
+- perror (man 3 perror)
+- printf (man 3 printf)
+- fprintf (man 3 fprintf)
+- vfprintf (man 3 vfprintf)
+- sprintf (man 3 sprintf)
+- putchar (man 3 putchar)
+- read (man 2 read)
+- readdir (man 3 readdir)
+- signal (man 2 signal)
+- stat (__xstat) (man 2 stat)
+- lstat (__lxstat) (man 2 lstat)
+- fstat (__fxstat) (man 2 fstat)
+- strtok (man 3 strtok)
+- wait (man 2 wait)
+- waitpid (man 2 waitpid)
+- wait3 (man 2 wait3)
+- wait4 (man 2 wait4)
+- write (man 2 write)
+
+---
+
 ## #process-management--logic
 
 The shell operates by managing the lifecycle of processes to execute user commands without crashing or exiting unexpectedly.
@@ -110,7 +143,7 @@ holbertonschool-simple_shell/
 ├── inshell.c
 ├── execute_command.c
 ├── find_path_manual.c
-├── 
+├── split_line.c
 └── README.md
 ```     
 
@@ -165,37 +198,44 @@ flowchart TB
     n31 --> n4
     n8 --> n32(["🛑 Free all memory & Exit"])
 
-    n5@{ shape: rect}
-    style n8 fill:#ffd93d
-    style n14 fill:#a8e6cf
-    style n29d fill:#ff6b6b
-    style n28d fill:#a8e6cf
-    style n32 fill:#95e1d3
 ```
 ---
 
 ## Installation
 
 - Requirements: Operating System: Ubuntu 14.04 LTS or 20.04 LTS.
-- Style: Code must follow the Betty style guide.
-- Memory: No memory leaks (checked with Valgrind).
-- File Structure: The project is modularized to comply with the limit of 5 functions per file.
-
-- Clone this repository:
 - Open your preferred Terminal.
 - Navigate to the directory where you want to clone the repository.
-- Run the following command:
+- Clone this repository, run the following command:
   
 ```git clone https://github.com/JarodLgeOff/holbertonschool-simple_shell.git```
 - Open the cloned repository.
+- Compile the programme, run the following command: 
+
+```gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh```
+- Start the programme, run the following command:
+
+```./hsh```
 
 ---
 
-## Compilation
+## Memory-Management
 
-Compiler: GCC 4.8.4 or later.
+All functions are rigorously tested for memory leaks and errors using Valgrind.
 
-Compilation Flags: -Wall -Werror -Wextra -pedantic -std=gnu89
+- **Validation Command**: `valgrind --leak-check=full --show-leak-kinds=all ./your_program`
+- **Results**: No leaks detected, all allocated memory freed.
+- **Checks Performed**: 
+```
+==33785== HEAP SUMMARY:
+==33785==     in use at exit: 0 bytes in 0 blocks
+==33785==   total heap usage: 59 allocs, 59 frees, 10,027 bytes allocated
+==33785== 
+==33785== All heap blocks were freed -- no leaks are possible
+==33785== 
+==33785== For lists of detected and suppressed errors, rerun with: -s
+==33785== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+```
 
 ---
 
