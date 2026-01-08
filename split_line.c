@@ -15,7 +15,7 @@ char **split_line(char *line)
 
 	if (!tokens)
 	{
-		fprintf(stderr, "hsh: allocation error\n");
+		fprintf(stderr, "./hsh: allocation error\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -32,7 +32,7 @@ char **split_line(char *line)
 			if (!new_tokens)
 			{
 				free(tokens);
-				fprintf(stderr, "hsh: allocation error\n");
+				fprintf(stderr, "./hsh: allocation error\n");
 				exit(EXIT_FAILURE);
 			}
 			for (k = 0; k < i; k++)
