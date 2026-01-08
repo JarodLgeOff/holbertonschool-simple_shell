@@ -243,7 +243,7 @@ All functions are rigorously tested for memory leaks and errors using Valgrind.
 
 The complete man page can be found in the file:  
 
-[man_1_simple_shell.man](man_1_simple_shell.man)
+[man_1_simple_shell](man_1_simple_shell)
 
 ---
 
